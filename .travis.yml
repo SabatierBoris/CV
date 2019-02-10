@@ -1,0 +1,22 @@
+language: bash
+
+services:
+- docker
+
+install:
+- docker pull blang/latex
+
+script:
+- docker run --rm -v $(pwd):/data blang/latex pdflatex -interaction=nonstopmode cv_fr.tex || true
+- docker run --rm -v $(pwd):/data blang/latex pdflatex -interaction=nonstopmode cv_en.tex || true
+- docker run --rm -v $(pwd):/data blang/latex pdflatex -interaction=nonstopmode cv.tex || true
+  #deploy:
+  #  provider: releases
+  #  api_key:
+  #    secure: [YOUR KEY]
+  #  file:
+  #  - _build/your_file_1.pdf
+  #  - _build/your_file_2.pdf
+  #  skip_cleanup: true
+  #  on:
+  #    tags: true
