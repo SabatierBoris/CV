@@ -1,0 +1,24 @@
+language: bash
+
+services:
+- docker
+
+install:
+- docker pull blang/latex
+
+script:
+- docker run --rm -v $(pwd):/data blang/latex pdflatex -interaction=nonstopmode cv_fr.tex
+  || true
+- docker run --rm -v $(pwd):/data blang/latex pdflatex -interaction=nonstopmode cv_en.tex
+  || true
+- docker run --rm -v $(pwd):/data blang/latex pdflatex -interaction=nonstopmode cv.tex
+  || true
+
+deploy:
+  provider: releases
+  api_key:
+    secure: Pxl8qIIu3g6u+jTwA3+n+tc3kUhyAersZ1+fVFn3nNw76xGrgrby3rFmLjBPYP+XqMl6osHPtBgNhFrndQv+VwV/mYRDU077au0dMdQyUcn8MipoWtxnETZhVIUBPUtghrKHPn6+PwfPugh3YMkkD/hObWGkx8mvphFztNs9NWkhGaCgZQRTVuZZDkRTMcjEvsDZKQbvAx33oScjVrjqLYRX2Xrt9BrDpLPmXamAT+QuNDn3BDg6Wfm4lPqscQkevQGAMMCuNzkaxh+Rktz03Ph/a6oDWp4rn7mTlhvZd8Z8XF5+3IwKZq6E2FNyXm4xwlSonNxJ3uh/3lIOd+OqttvRirt4RIbIIL1A3QQDdZTRF1oU9Z4UO8IrR+l4KjFbuVif5GOT7UdfHCYZtd8p+BBrx0EbcH95wsC6KC4Ond6pvA5Q+YM+pSqR10i+2HJx3Gel3QcHqI8AzSFuLFMakJ9siH2EYQgq8nySwkTb026hPOPNsUq1BQmotoIh0cpMf32l51zXKnUEAmgrBUO1kn1T2hy4fRi4QmLyVViJ3RdwZ49rW1nVgDfY1OSZpBwcqxx4Fe9A/MaLbAXty2Q/wJyGifm0GVBKG4bnmxdOrC66qMf0HYLAjIpvptYGXTnBhmx/H6byVQ96/rIg3u1oXtK9YJa25UGXFmQme51kvpI=
+  file_glob: true
+  file: "*.pdf"
+  skip_cleanup: true
+  draft: true
